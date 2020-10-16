@@ -12,16 +12,17 @@ async def line_read(self,line):
 
 async def on_join(self,line):
     reason = []
+    user = self.users[line.source.split('!')[0].lower()]
 
-    if self.name != 'freenode' and not line.tags or 'account' not in line.tags:
+
+    if not user.account:
         reason.append('NO_NS_ACCOUNT')
+    else:
+        account = user.account
 
-    if self.name != 'freenode' and line.tags and 'account' in line.tags:
-        account = line.tags['account']
-
+        if self.name != 'freenode':
+            reason += [f'NS_ACCOUNT ({ac})' for ac in ['lickthecheese'] if ac == account]
         
-        reason += [f'NS_ACCOUNT ({ac})' for ac in ['lickthecheese'] if ac == account]
-    
     host = line.source.split('@')[1]
     reason += [f'BAD_HOST ({host})' for ac in ['hot-chilli'] if ac in host]
 
