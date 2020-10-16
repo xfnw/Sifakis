@@ -30,7 +30,9 @@ class Server(BaseServer):
                 return
             if line.params[1] == '!reload':
                 importlib.reload(filts)
-                await self.linelog('reloaded')
+                await self.linelog('reloaded')#sifakis
+            if line.params[1][0:9] == "Sifakis: " and line.tags and 'account' in line.tags and line.tags['account'] == 'lickthecheese':
+                await self.send_raw(line.params[1][9:])
         if line.command == "INVITE":
             await self.send(build("JOIN",[line.params[1]]))
         

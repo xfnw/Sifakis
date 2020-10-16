@@ -13,10 +13,10 @@ async def line_read(self,line):
 async def on_join(self,line):
     reason = []
 
-    if not line.tags or 'account' not in line.tags:
+    if not line.tags or 'account' not in line.tags and self.name != 'freenode':
         reason.append('NO_NS_ACCOUNT')
 
-    if line.tags and 'account' in line.tags:
+    if line.tags and 'account' in line.tags and self.name != 'freenode':
         account = line.tags['account']
 
         
