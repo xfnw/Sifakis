@@ -9,9 +9,9 @@ import asyncio, importlib
 from irctokens import build, Line
 from ircrobots import Bot as BaseBot
 from ircrobots import Server as BaseServer
-from ircrobots import ConnectionParams
+from ircrobots import ConnectionParams, SASLUserPass, SASLSCRAM
 
-import filts
+import filts, auth
 
 SERVERS = [
     ("freenode", "chat.freenode.net"),
@@ -49,7 +49,8 @@ class Bot(BaseBot):
 async def main():
     bot = Bot()
     for name, host in SERVERS:
-        params = ConnectionParams("Sifakis", host, 6697, True)
+        sasl_params = SASLUserPass("Sifakis", auth.password)
+        params = ConnectionParams("Sifakis", host, 6697, True, sasl = sasl_params)
         await bot.add_server(name, params)
 
     await bot.run()
