@@ -26,13 +26,13 @@ class Server(BaseServer):
             print(f"connected to {self.name}")
             await self.send(build("JOIN", [self.lc]))
         if line.command == "PRIVMSG":
-            if 'batch' in line.tags and line.tags['batch'] == '1':
+            if line.tags and 'batch' in line.tags and line.tags['batch'] == '1':
                 return
             if line.params[1] == '!reload':
                 importlib.reload(filts)
                 await self.linelog('reloaded')#sifakis
             if line.params[1][0:9] == "Sifakis: " and line.tags and 'account' in line.tags and line.tags['account'] == 'lickthecheese':
-                await self.send_raw(line.params[1][9:])
+                await self.linelog(str(await aexec(self,line.params[1][9:])))
         if line.command == "INVITE":
             await self.send(build("JOIN",[line.params[1]]))
         
@@ -56,6 +56,18 @@ async def main():
         await bot.add_server(name, params)
 
     await bot.run()
+
+
+async def aexec(self, code):
+    # Make an async function with the code and `exec` it
+    exec(
+        f'async def __ex(self): ' +
+        ''.join(f'\n {l}' for l in code.split('\n'))
+    )
+
+    # Get `__ex` from local variables, call it and return the result
+    return await locals()['__ex'](self)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
