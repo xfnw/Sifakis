@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-logchan = "#xfnwtest"
+logchan = "#chaos"
 
 
 import asyncio, importlib
@@ -14,7 +14,7 @@ from ircrobots import ConnectionParams, SASLUserPass, SASLSCRAM
 import filts, auth
 
 SERVERS = [
-    ("freenode", "chat.freenode.net"),
+    #("freenode", "chat.freenode.net"),
     ("tilde","irc.tilde.chat"),
 ]
 
