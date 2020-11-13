@@ -12,7 +12,7 @@ async def line_read(self,line):
     # line tags command params source
     if line.command == "PING" or line.command == "001":
         self.jointh = []
-        self.tomode=""
+        self.tomode=["#chaos","-cunt"]
     if line.command == "482":
         await self.send(build("cs",["owner","#chaos"]))
     if line.command == "JOIN":
@@ -47,7 +47,7 @@ async def checkUser(self,nick):
     user = self.users[nick]
 
     reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in ['war','space'] if ac in nick]
-    reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus'] if ac == user.account]
+    reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus','kiedtl_bots'] if ac == user.account]
 
     reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.realname]
 
@@ -66,7 +66,7 @@ async def on_mode(self,line):
     if self.nickname in line.source:
         return
     if line.params in [["#chaos","+q",self.nickname],["#chaos","+qo",self.nickname,self.nickname]]:
-        self.send("MODE",self.tomode)
+        await self.send(build("MODE",self.tomode))
     unmo = []
     for i in set(line.params[2:]):
         nick = i.lower()
