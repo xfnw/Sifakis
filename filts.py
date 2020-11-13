@@ -46,29 +46,37 @@ async def checkUser(self,nick):
     reason = []
     user = self.users[nick]
 
-    reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in ['war'] if ac in nick]
+    reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in ['war','space'] if ac in nick]
     reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus'] if ac == user.account]
 
-    reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl'] if ac in user.realname]
+    reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.realname]
 
     reason += [f'BAD_USERNAME ({user.username}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.username]
     reason += [f'BAD_HOSTNAME ({user.hostname}) (Open Proxy)' for ac in ['chilli','harris.team'] if ac in user.hostname]
 
     if len(reason) > 0:
-        self.tomode = nick
-        await self.send(build("MODE",["#chaos","-qocunt",nick,nick]))
-        await self.linelog(f'{nick} caught because of {", ".join(reason)}')
-
+        #self.tomode = nick
+        return nick
+        #await self.send(build("MODE",["#chaos","-qocunt",nick,nick]))
+        #await self.linelog(f'{nick} caught because of {", ".join(reason)}')
+    else:
+        return False
 
 async def on_mode(self,line):
     if self.nickname in line.source:
         return
-    if line.params == ["#chaos","+q",self.nickname]:
-        self.send("MODE",["#chaos","-qocunt",self.tomode,self.tomode])
+    if line.params in [["#chaos","+q",self.nickname],["#chaos","+qo",self.nickname,self.nickname]]:
+        self.send("MODE",self.tomode)
+    unmo = []
     for i in set(line.params[2:]):
         nick = i.lower()
-        if nick in self.channels[line.params[0]].users:
-            await checkUser(self,nick)
+        if line.params[0] in self.channels and nick in self.channels[line.params[0]].users:
+            us = await checkUser(self,nick)
+            if us:
+                unmo.append(us)
+    if len(unmo) > 0:
+        self.tomode=["#chaos","-cunt"+"q"*len(unmo)+"o"*len(unmo)]+unmo+unmo
+        await self.send(build("MODE",self.tomode))
             
 
 
