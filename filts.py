@@ -67,15 +67,16 @@ async def on_mode(self,line):
         return
     if line.params in [["#chaos","+q",self.nickname],["#chaos","+qo",self.nickname,self.nickname]]:
         await self.send(build("MODE",self.tomode))
+        return
     unmo = []
-    for i in set(line.params[2:]):
+    for i in self.channels['#chaos'].users: #set(line.params[2:]):
         nick = i.lower()
         if line.params[0] in self.channels and nick in self.channels[line.params[0]].users:
             us = await checkUser(self,nick)
             if us:
                 unmo.append(us)
     if len(unmo) > 0:
-        self.tomode=["#chaos","-cunt"+"q"*len(unmo)+"o"*len(unmo)]+unmo+unmo
+        self.tomode=["#chaos","+q-cunt"+"q"*len(unmo)+"o"*len(unmo),"xfnw"]+unmo+unmo
         await self.send(build("MODE",self.tomode))
             
 
