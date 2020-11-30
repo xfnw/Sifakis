@@ -50,9 +50,13 @@ async def checkUser(self,nick):
     reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus','kiedtl_bots'] if ac == user.account]
 
     reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.realname]
+    reason += [f'BAD_REALNAME ({user.realname}) (Kiwi)' for ac in ['kiwi.tilde.chat'] if ac in user.realname]
 
     reason += [f'BAD_USERNAME ({user.username}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.username]
-    reason += [f'BAD_HOSTNAME ({user.hostname}) (Open Proxy)' for ac in ['chilli','harris.team'] if ac in user.hostname]
+    reason += [f'BAD_USERNAME ({user.username}) (rndusr)' for ac in ['rndusr','randomuser'] if ac in user.username]
+    reason += [f'BAD_HOSTNAME ({user.hostname}) (Open Proxy)' for ac in ['chilli','harris.team','mibbit'] if ac in user.hostname]
+
+    reason += [f'BAD_HOSTNAME ({user.hostname}) (rndusr)' for ac in ['71.236.47'] if ac in user.hostname]
 
     if len(reason) > 0:
         #self.tomode = nick
