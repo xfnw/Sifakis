@@ -13,6 +13,7 @@ async def line_read(self,line):
     if line.command == "PING" or line.command == "001":
         self.jointh = []
         self.tomode=["#chaos","-cunt"]
+        self.attack = ['kiedtl','rndusr']
     if line.command == "482":
         await self.send(build("cs",["owner","#chaos"]))
     if line.command == "JOIN":
@@ -47,16 +48,19 @@ async def checkUser(self,nick):
     user = self.users[nick]
 
     reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in ['war','space'] if ac in nick]
-    reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus','kiedtl_bots'] if ac == user.account]
-
-    reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.realname]
-    reason += [f'BAD_REALNAME ({user.realname}) (Kiwi)' for ac in ['kiwi.tilde.chat'] if ac in user.realname]
-
-    reason += [f'BAD_USERNAME ({user.username}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.username]
-    reason += [f'BAD_USERNAME ({user.username}) (rndusr)' for ac in ['rndusr','randomuser'] if ac in user.username]
     reason += [f'BAD_HOSTNAME ({user.hostname}) (Open Proxy)' for ac in ['chilli','harris.team','mibbit'] if ac in user.hostname]
 
-    reason += [f'BAD_HOSTNAME ({user.hostname}) (rndusr)' for ac in ['71.236.47'] if ac in user.hostname]
+
+    reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in self.attack if ac in nick]
+    if 'kiedtl' in self.attack:
+        reason += [f'NS_ACCOUNT ({ac}) (Kied)' for ac in ['kiedtl','yeenkuus','kiedtl_bots'] if ac == user.account]
+        reason += [f'BAD_REALNAME ({user.realname}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.realname]
+        reason += [f'BAD_REALNAME ({user.realname}) (Kiwi)' for ac in ['kiwi.tilde.chat'] if ac in user.realname]
+        reason += [f'BAD_USERNAME ({user.username}) (Kied)' for ac in ['kiedtl','spacehare'] if ac in user.username]
+    
+    if 'rndusr' in self.attack:
+        reason += [f'BAD_USERNAME ({user.username}) (rndusr)' for ac in ['rndusr','randomuser'] if ac in user.username]
+        reason += [f'BAD_HOSTNAME ({user.hostname}) (rndusr)' for ac in ['71.236.47'] if ac in user.hostname]
 
     if len(reason) > 0:
         #self.tomode = nick
