@@ -13,7 +13,7 @@ async def line_read(self,line):
     if line.command == "PING" or line.command == "001":
         self.jointh = []
         self.tomode=["#chaos","-cunt"]
-        self.attack = ['kiedtl','rndusr']
+        self.attack = ['anton']
     if line.command == "482":
         await self.send(build("cs",["owner","#chaos"]))
     if line.command == "JOIN":
@@ -49,6 +49,7 @@ async def checkUser(self,nick):
 
     reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in ['war','space'] if ac in nick]
     reason += [f'BAD_HOSTNAME ({user.hostname}) (Open Proxy)' for ac in ['chilli','harris.team','mibbit'] if ac in user.hostname]
+    #reason += [f'BAD_USERNAME ({user.username}) (no ident)' for ac in ['~'] if ac in user.username]
 
 
     reason += [f'BAD_NICK ({nick}) (malicious robot)' for ac in self.attack if ac in nick]
@@ -61,6 +62,25 @@ async def checkUser(self,nick):
     if 'rndusr' in self.attack:
         reason += [f'BAD_USERNAME ({user.username}) (rndusr)' for ac in ['rndusr','randomuser'] if ac in user.username]
         reason += [f'BAD_HOSTNAME ({user.hostname}) (rndusr)' for ac in ['71.236.47'] if ac in user.hostname]
+
+    if 'julian' in self.attack:
+            reason += [f'BAD_USERNAME ({user.username}) (julian)' for ac in ['thelounge','julian'] if ac in user.username]
+            reason += [f'BAD_ACCOUNT ({user.account}) (julian)' for ac in ['julian','julianmarcos','jbot'] if ac == user.account]
+            reason += [f'BAD_HOSTNAME ({user.hostname}) (julian)' for ac in ['84.127.57.241.dyn.user.ono.com'] if ac in user.hostname]
+
+
+    if 'Nav|C' in self.attack:
+        reason += [f'BAD_USERNAME ({user.username}) (Nav|C)' for ac in ['navic'] if ac in user.username]
+        reason += [f'BAD_ACCOUNT ({user.account}) (Nav|C)' for ac in ['navic','Nav|C'] if ac == user.account]
+        #reason += [f'BAD_HOSTNAME ({user.hostname}) (Nav|C)' for ac in [] if ac in user.hostname]
+
+
+    if 'anton' in self.attack:
+        reason += [f'BAD_USERNAME ({user.username}) (anton)' for ac in ['anton','adam','nyku'] if ac in user.username]
+        reason += [f'BAD_REALNAME ({user.realname}) (anton)' for ac in ['anton','adam','Anton','Adam','nyku'] if ac in user.realname]
+        reason += [f'BAD_ACCOUNT ({user.account}) (anton)' for ac in ['adam','anton','nyku'] if ac == user.account]
+        reason += [f'BAD_HOSTNAME ({user.hostname}) (anton)' for ac in ['nyku.net','.bhh.sh','antonmcclure.com','198.108.76.81'] if ac in user.hostname]
+
 
     if len(reason) > 0:
         #self.tomode = nick
