@@ -82,11 +82,16 @@ async def checkUser(self,nick):
         reason += [f'BAD_HOSTNAME ({user.hostname}) (anton)' for ac in ['nyku.net','.bhh.sh','antonmcclure.com','198.108.76.81'] if ac in user.hostname]
 
 
+    if 'MIF' in self.attack:
+        reason += [f'BAD_HOSTNAME ({user.hostname}) (MIF)' for ac in ['162.246.237.210'] if ac in user.hostname]
+
+
+
     if len(reason) > 0:
         #self.tomode = nick
+        #await self.linelog(f'{nick} caught because of {", ".join(reason)}')
         return nick
         #await self.send(build("MODE",["#chaos","-qocunt",nick,nick]))
-        #await self.linelog(f'{nick} caught because of {", ".join(reason)}')
     else:
         return False
 
@@ -104,7 +109,10 @@ async def on_mode(self,line):
             if us:
                 unmo.append(us)
     if len(unmo) > 0:
-        self.tomode=["#chaos","+q-cunt"+"q"*len(unmo)+"o"*len(unmo),"xfnw"]+unmo+unmo
+        if 'a' in line.params[1]: # meh, only take away protected if protected was set
+            self.tomode=["#chaos","+q-cunt"+"q"*len(unmo)+"o"*len(unmo)+"a"*len(unmo),"xfnw"]+unmo+unmo+unmo
+        else:
+            self.tomode=["#chaos","+q-cunt"+"q"*len(unmo)+"o"*len(unmo),"xfnw"]+unmo+unmo
         await self.send(build("MODE",self.tomode))
             
 
