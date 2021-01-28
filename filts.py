@@ -13,7 +13,7 @@ async def line_read(self,line):
     if line.command == "PING" or line.command == "001":
         self.jointh = []
         self.tomode=["#chaos","-cunt"]
-        self.attack = ['anton']
+        self.attack = ['anton','julian']
     if line.command == "482":
         await self.send(build("cs",["owner","#chaos"]))
     if line.command == "JOIN":
