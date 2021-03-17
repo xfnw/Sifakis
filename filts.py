@@ -64,7 +64,7 @@ async def checkUser(self,nick):
         reason += [f'BAD_HOSTNAME ({user.hostname}) (rndusr)' for ac in ['71.236.47'] if ac in user.hostname]
 
     if 'julian' in self.attack:
-            reason += [f'BAD_USERNAME ({user.username}) (julian)' for ac in ['thelounge','julian'] if ac in user.username]
+            reason += [f'BAD_USERNAME ({user.username}) (julian)' for ac in ['thelounge','julian','jmjl'] if ac in user.username]
             reason += [f'BAD_ACCOUNT ({user.account}) (julian)' for ac in ['julian','julianmarcos','jbot'] if ac == user.account]
             reason += [f'BAD_HOSTNAME ({user.hostname}) (julian)' for ac in ['84.127.57.241.dyn.user.ono.com'] if ac in user.hostname]
 
